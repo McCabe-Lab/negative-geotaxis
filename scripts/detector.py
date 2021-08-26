@@ -8,6 +8,7 @@
 
 version = '0.4.0'
 publication = False
+writemovieplease = True
 
 import os
 import sys
@@ -1160,6 +1161,18 @@ class detector(object):
         plt.close()
         plt.close()
         print('                --> Saved:',self.path_diagnostic.split('/')[-1])
+        
+        if writemovieplease:
+            plt.figure(figsize=(5,4))
+            fig, (ax1) = plt.subplots(nrows=1, ncols=1)
+            for i in range(begin,end):
+                self.image_plot(df = spots,frame = i,ax=ax1),
+                fname = str(i) + '.tiff'
+                plt.savefig(fname,dpi=300)
+                plt.cla()
+            plt.close()
+        return
+        
         return
         
     def step_7(self):
