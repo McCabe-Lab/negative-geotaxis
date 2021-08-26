@@ -887,9 +887,20 @@ class detector(object):
         if method == 'max_r': result = result[result.r == result.r.max()]
         elif method == 'min_err': result = result[result.err == result.err.min()]
         else: print("Unrecognized method, chose either 'max_r' to select the window with the greatest R or 'min_err' to select the window with the lowest error")
-        return result
-        
-        
+        return result   
+  
+    def writemovie(self,begin, end, spots):    
+        plt.figure(figsize=(5,4))
+        fig, (ax1) = plt.subplots(nrows=1, ncols=1)
+        for i in range(begin,end):
+            self.image_plot(df = spots,frame = i,ax=ax1),
+            fname = str(i) + '.tiff'
+            plt.savefig(fname,dpi=300)
+            plt.cla()
+        plt.close()
+        return
+    
+    
     def step_1(self, gui = False, grayscale = True):
         '''Crops and formats the video, previously loaded during detector initialization.
         ----
@@ -1162,16 +1173,8 @@ class detector(object):
         plt.close()
         print('                --> Saved:',self.path_diagnostic.split('/')[-1])
         
-        if writemovieplease:
-            plt.figure(figsize=(5,4))
-            fig, (ax1) = plt.subplots(nrows=1, ncols=1)
-            for i in range(begin,end):
-                self.image_plot(df = spots,frame = i,ax=ax1),
-                fname = str(i) + '.tiff'
-                plt.savefig(fname,dpi=300)
-                plt.cla()
-            plt.close()
-        return
+        ## Saving movie
+        if writemovieplease: self.writemovie(begin, end, spots)
         
         return
         
